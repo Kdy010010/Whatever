@@ -5,7 +5,8 @@ const io = require('socket.io')(http);
 const fs = require('fs');
 const path = require('path');
 
-app.use(express.static('public')); // 클라이언트 파일 제공
+// 정적 파일 제공
+app.use(express.static('public'));
 
 // 깃발 데이터 로드 또는 초기화
 let flags = [];
@@ -20,6 +21,8 @@ if (fs.existsSync(dataFile)) {
     flags.push({
       id: i,
       owner: null, // 소유자 팀 색상
+      x: Math.random() * 2000, // 맵 내 랜덤 위치
+      y: Math.random() * 2000,
     });
   }
   fs.writeFileSync(dataFile, JSON.stringify(flags));
@@ -39,7 +42,6 @@ io.on('connection', (socket) => {
       flag.owner = flagData.owner;
       // 업데이트된 깃발 데이터 저장
       fs.writeFileSync(dataFile, JSON.stringify(flags));
-
       // 모든 클라이언트에게 업데이트 전송
       io.emit('update flag', flag);
     }
@@ -55,6 +57,8 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(3000, () => {
-  console.log('서버가 3000번 포트에서 실행 중입니다.');
+// 서버 실행
+const PORT = process.env.PORT || 3000;
+http.listen(PORT, () => {
+  console.log(`서버가 ${PORT}번 포트에서 실행 중입니다.`);
 });
