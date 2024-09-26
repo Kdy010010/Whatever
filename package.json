@@ -1,0 +1,15 @@
+{
+  "name": "flag-war-game",
+  "version": "1.0.0",
+  "description": "1000개의 깃발이 있는 실시간 전쟁 게임",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.0.0"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
